@@ -1,0 +1,204 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <title>Generador de Descripciones HTML con IA</title>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.18.5/xlsx.full.min.js"></script>
+  <style>
+    body {
+      font-family: Calibri, sans-serif;
+    }
+    h1 {
+      background-color: #00b5e2;
+      color: white;
+      padding: 20px;
+      border-radius: 8px;
+    }
+    hr {
+      margin: 40px 0;
+      border: none;
+      height: 2px;
+      background-color: #ccc;
+    }
+    .formulario {
+      background: #f9f9f9;
+      padding: 20px;
+      border-radius: 8px;
+      margin-top: 20px;
+    }
+    .formulario label {
+      display: block;
+      margin-top: 10px;
+    }
+    .formulario input, .formulario button {
+      margin-top: 5px;
+      padding: 6px;
+      width: 100%;
+      box-sizing: border-box;
+    }
+    #preview {
+      margin-top: 20px;
+      padding: 20px;
+      border: 2px solid #00b5e2;
+      background: #f0faff;
+      border-radius: 10px;
+      font-size: 15px;
+      box-shadow: 0 2px 6px rgba(0,0,0,0.1);
+    }
+    #progresoContainer {
+      display: none;
+      margin: 20px 0;
+    }
+    #barraProgreso {
+      width: 0%;
+      height: 20px;
+      background-color: #00b5e2;
+      color: white;
+      text-align: center;
+      line-height: 20px;
+    }
+    #notificacion {
+      position: fixed;
+      bottom: 20px;
+      right: 20px;
+      background-color: #00b5e2;
+      color: white;
+      padding: 12px 20px;
+      border-radius: 8px;
+      box-shadow: 0 2px 6px rgba(0,0,0,0.2);
+      font-size: 14px;
+      display: none;
+      z-index: 9999;
+    }
+  </style>
+</head>
+<body>
+  <h1>🛍️ Generador de Descripciones para eCommerce</h1>
+
+  <h2>📝 Instrucciones de uso</h2>
+  <ol>
+    <li>Haz clic en el botón para descargar el archivo de ejemplo y completa los datos de tus productos.</li>
+    <button onclick="generarArchivoEjemplo()">📥 Descargar archivo de ejemplo</button>
+    <p><em>Incluye una fila de ejemplo ya rellena como referencia.</em></p>
+    <table border="1" cellpadding="5" cellspacing="0" style="margin-top:10px; border-collapse: collapse;">
+      <thead style="background-color: #00b5e2; color: white;">
+        <tr>
+          <th>sku</th>
+          <th>nombre</th>
+          <th>marca</th>
+          <th>material</th>
+          <th>diseño</th>
+          <th>dimensiones</th>
+          <th>palabrasClave</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>123456</td>
+          <td>Polera básica</td>
+          <td>Paris Basics</td>
+          <td>Algodón</td>
+          <td>Casual</td>
+          <td>M-L-XL</td>
+          <td>cómoda, básica, algodón, verano</td>
+        </tr>
+      </tbody>
+    </table>
+<br>
+    <li>Asegúrate de completar la columna <strong>SKU</strong>, ya que este será el identificador de cada producto en el HTML.</li>
+    <li>Guarda el archivo en formato <strong>.xlsx</strong>.</li>
+    <li>En esta página, selecciona el archivo con el botón <strong>"Cargar archivo Excel"</strong>.</li>
+    <li>Ingresa tu clave de OpenAI para generar descripciones con IA.</li>
+    <li>Haz clic en <strong>"Generar descripciones"</strong>.</li>
+    <li>Una vez procesado, podrás descargar el archivo con columnas: <code>SKU</code> y <code>Descripción Larga</code>.</li>
+  </ol>
+  <p>⚠️ Todos los campos son opcionales, pero a mayor cantidad de información, mejor será la descripción generada.</p>
+
+  <hr>
+
+  <h2>📄 Cargar archivo Excel</h2>
+  <input type="file" id="fileInput" accept=".xlsx,.xls,.csv">
+  <br><br>
+  <label>🔑 Clave API de OpenAI: <input type="password" id="apiKey" placeholder="Tu clave segura"></label>
+  <br><br>
+  <button onclick="procesarArchivo()">Generar descripciones</button>
+  <div id="progresoContainer">
+    <div id="barraProgreso">0%</div>
+  </div>
+  <br>
+  <a id="downloadLink" style="display:none">📥 Descargar archivo con descripciones</a>
+
+  <hr>
+
+  <h2>🧾 Ingreso individual de datos</h2>
+  <div class="formulario">
+    <label>Nombre del producto: <input type="text" id="nombre"></label>
+    <label>Marca: <input type="text" id="marca"></label>
+    <label>Material: <input type="text" id="material"></label>
+    <label>Diseño: <input type="text" id="diseno"></label>
+    <label>Dimensiones: <input type="text" id="dimensiones"></label>
+    <label>Palabras clave (separadas por coma): <input type="text" id="palabrasClave"></label>
+    <label>🔑 Clave API de OpenAI: <input type="password" id="apiKeySingle" placeholder="Tu clave segura"></label>
+    <button onclick="generarIndividual()">Generar descripción</button>
+    <button onclick="descargarHTML()">💾 Descargar como HTML</button>
+  </div>
+  <div id="preview"></div>
+  <div id="notificacion"></div>
+
+<script>
+function mostrarNotificacion(mensaje) {
+  const noti = document.getElementById("notificacion");
+  noti.textContent = mensaje;
+  noti.style.display = "block";
+  setTimeout(() => {
+    noti.style.display = "none";
+  }, 3000);
+}
+
+function generarIndividual() {
+  const nombre = document.getElementById("nombre").value.trim();
+  const marca = document.getElementById("marca").value.trim();
+  const material = document.getElementById("material").value.trim();
+  const diseno = document.getElementById("diseno").value.trim();
+  const dimensiones = document.getElementById("dimensiones").value.trim();
+  const palabrasClave = document.getElementById("palabrasClave").value.trim();
+  const apiKey = document.getElementById("apiKeySingle").value.trim();
+
+  if (!apiKey) {
+    mostrarNotificacion("🔐 Debes ingresar tu clave de OpenAI.");
+    return;
+  }
+
+  const prompt = `Genera una descripción HTML amigable, semiformal y vendible para un producto con los siguientes datos: 
+Nombre: ${nombre}
+Marca: ${marca}
+Material: ${material}
+Diseño: ${diseno}
+Dimensiones: ${dimensiones}
+Palabras clave: ${palabrasClave}`;
+
+  fetch("https://api.openai.com/v1/chat/completions", {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json",
+      "Authorization": `Bearer ${apiKey}`
+    },
+    body: JSON.stringify({
+      model: "gpt-3.5-turbo",
+      messages: [{ role: "user", content: prompt }],
+      temperature: 0.7
+    })
+  })
+    .then(res => res.json())
+    .then(data => {
+      const descripcion = data.choices?.[0]?.message?.content || "Error generando la descripción.";
+      document.getElementById("preview").innerHTML = `<h3>🔍 Vista previa:</h3>` + descripcion;
+    })
+    .catch(err => {
+      mostrarNotificacion("❌ Error al conectarse con OpenAI.");
+      console.error(err);
+    });
+}
+</script>
+</body>
+</html>
