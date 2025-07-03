@@ -1,13 +1,361 @@
-
-<!DOCTYPE html>
+.image-main img {
+  width: 100%;
+  height: auto;
+  object-fit: contain;
+  max-width: 600px;
+  display: block;
+  margin: 0 auto 15px;
+}<!DOCTYPE html>
 <html lang="es">
 <head>
-  <meta charset="UTF-8">
-  <title>Generador de Descripciones HTML con IA</title>
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.18.5/xlsx.full.min.js"></script>
-  <!-- El resto del contenido se ha copiado directamente desde el canvas -->
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Creador de Descripciones Largas</title>
+  <style>
+    body {
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      margin: 0;
+      padding: 0;
+      background-color: #f8f9fa;
+      font-size: 15px;
+    }
+    .header {
+      background-color: #2c3e50;
+      color: white;
+      padding: 20px;
+      text-align: center;
+      font-size: 24px;
+      font-weight: bold;
+    }
+    .container {
+      max-width: 900px;
+      margin: 30px auto;
+      padding: 0 20px;
+    }
+    .attribute-group {
+      background: white;
+      padding: 20px;
+      border-radius: 10px;
+      box-shadow: 0 2px 10px rgba(0,0,0,0.05);
+      margin-bottom: 20px;
+      border: 1px solid #ddd;
+    }
+    .form-unitario-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 16px;
+    }
+    .full-width {
+      grid-column: 1 / -1;
+    }
+    label {
+      font-weight: bold;
+      font-size: 14px;
+      margin-bottom: 4px;
+      display: block;
+      color: #333;
+    }
+    input::placeholder {
+      font-style: italic;
+      color: #999;
+    }
+    input, select {
+      width: 100%;
+      padding: 10px;
+      margin-top: 4px;
+      box-sizing: border-box;
+      border: 1px solid #ccc;
+      border-radius: 4px;
+      font-family: inherit;
+      font-size: 14px;
+    }
+    .button-group {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px;
+      margin-top: 10px;
+    }
+    button {
+      background-color: #555;
+      color: white;
+      border: none;
+      padding: 8px 14px;
+      font-size: 13px;
+      border-radius: 6px;
+      cursor: pointer;
+      font-weight: 500;
+      text-transform: capitalize;
+    }
+    button:hover {
+      background-color: #333;
+    }
+    .categoria-export {
+  background-color: white;
+  border-radius: 10px;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.08);
+  padding: 20px;
+  margin-bottom: 30px;
+  font-size: 15px;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  align-items: flex-start;
+}
+    .categoria-export ul {
+  text-align: left;
+      background: #f5f5f5;
+      padding: 10px;
+      border-radius: 5px;
+      list-style: none;
+      padding-left: 20px;
+    }
+    .categoria-export ul li {
+      position: relative;
+      padding-left: 20px;
+      margin-bottom: 8px;
+    }
+    .categoria-export p {
+  text-align: left;
+}
+
+.categoria-export ul li::before {
+      content: "\2022";
+      position: absolute;
+      left: 0;
+      color: #555;
+    }
+    .categoria-export .image-columns {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px;
+      margin-top: 15px;
+    }
+    .categoria-export .image-columns img {
+    width: calc(50% - 5px);
+    height: auto;
+    border-radius: 8px;
+    object-fit: cover;
+    aspect-ratio: 1 / 1;
+  }
+    @media (max-width: 600px) {
+  .categoria-export .image-columns {
+    flex-direction: row;
+    flex-wrap: wrap;
+  }
+  .categoria-export .image-columns img {
+    width: 100%;
+  }
+}
+  .categoria-export .image-columns img {
+    width: calc(50% - 5px);
+  }
+}
+  .categoria-export .image-columns img {
+    flex: 1 1 100%;
+    width: 100%;
+  }
+}
+    }
+  </style>
 </head>
 <body>
-  <!-- Contenido completo pegado desde el canvas -->
+  <div class="header">Creador de Descripciones Largas</div>
+  <div class="container">
+    <div class="attribute-group">
+      <p>📅 <strong>Procesar Excel:</strong> Sube un archivo Excel con los productos para generar automáticamente las fichas. Asegúrate de que contenga los siguientes campos: <em>SKU, Nombre, Tipo, Marca, Beneficios, Información adicional, URL Imagen</em>.</p>
+      <p>📄 <strong>Descargar Plantilla:</strong> Puedes descargar una plantilla de ejemplo para completar correctamente.</p>
+      <p>📝 <strong>Formulario Unitario:</strong> También puedes ingresar productos de forma individual usando el formulario más abajo.</p>
+    </div>
+
+    <div class="attribute-group">
+      <label for="excelInput">📁 Selecciona tu archivo Excel:</label>
+      <input type="file" id="excelInput" accept=".xlsx, .xls">
+      <div class="button-group">
+        <button id="btnProcesar">📥 Procesar Excel</button>
+        <button id="btnPlantilla">📄 Descargar Plantilla</button>
+        <button id="btnExportar">⬇️ Exportar HTML a Excel</button>
+        <button id="btnLimpiar">🧹 Limpiar</button>
+      </div>
+    </div>
+
+    <hr style="border: none; border-top: 2px solid #ccc; margin: 40px 0 10px">
+    <h3 style="margin-bottom: 10px; font-size: 20px; color: #2c3e50">📝 Carga unitaria</h3>
+    <div class="attribute-group form-unitario-grid">
+      <div>
+        <label for="skuUnit">SKU (solo referencial)</label>
+        <input type="text" id="skuUnit" placeholder="Ej: 12345678">
+      </div>
+      <div>
+        <label for="nombreUnit"><span style='color:red'>*</span> Nombre de Producto</label>
+        <input type="text" id="nombreUnit" placeholder="Ej: Labial Super Stay Matte Ink">
+      </div>
+      <div>
+        <label for="marcaUnit"><span style='color:red'>*</span> Marca</label>
+        <input type="text" id="marcaUnit" placeholder="Ej: Maybelline">
+      </div>
+      <div>
+        <label for="tipoUnit"><span style='color:red'>*</span> Tipo de Producto</label>
+        <input type="text" id="tipoUnit" placeholder="Ej: Labiales">
+      </div>
+      <div class="full-width">
+        <label for="beneficiosUnit">Beneficios (separados por coma):</label>
+        <input type="text" id="beneficiosUnit" placeholder="Ej: Larga duración, No se transfiere, Alta pigmentación">
+      </div>
+      <div class="full-width">
+        <label for="infoUnit">Información adicional:</label>
+        <input type="text" id="infoUnit" placeholder="Ej: Agita bien antes de usar. Aplica desde el centro hacia los extremos.">
+      </div>
+      <div>
+        <label for="img1Unit">URL Imagen <span style="font-style: italic; color: #888">(Formato horizontal)</span>:</label>
+        <input type="text" id="img1Unit" placeholder="Ej: https://.../imagen1.jpg">
+      </div>
+      <div>
+        <label for="img2Unit">URL Imagen 2 <span style="font-style: italic; color: #888">(Formato cuadrado)</span>:</label>
+        <input type="text" id="img2Unit" placeholder="Ej: https://.../imagen2.jpg">
+      </div>
+      <div>
+        <label for="img3Unit">URL Imagen 3 <span style="font-style: italic; color: #888">(Formato cuadrado)</span>:</label>
+        <input type="text" id="img3Unit" placeholder="Ej: https://.../imagen3.jpg">
+      </div>
+      <div>
+        <label for="colorUnit">Color del Título:</label>
+        <select id="colorUnit">
+          <option value="azul">Azul</option>
+          <option value="rosa">Rosa</option>
+          <option value="negro">Negro</option>
+        </select>
+      </div>
+      <div class="full-width button-group">
+        <button id="btnAgregar">Ver Tabla</button>
+      </div>
+    </div>
+
+    <div id="descripcionFinal"></div>
+  </div>
+
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.18.5/xlsx.full.min.js"></script>
+  <script>
+    const coloresPermitidos = { azul: "#007bff", rosa: "#e91e63", negro: "#000000" };
+    let fichasGeneradas = [];
+
+    function procesarExcel() {
+      const input = document.getElementById("excelInput");
+      const file = input.files[0];
+      if (!file) return alert("Por favor selecciona un archivo Excel.");
+
+      const reader = new FileReader();
+      reader.onload = function(e) {
+        const data = new Uint8Array(e.target.result);
+        const workbook = XLSX.read(data, { type: "array" });
+        const sheet = workbook.Sheets[workbook.SheetNames[0]];
+        const rows = XLSX.utils.sheet_to_json(sheet);
+
+        if (!rows.length) return alert("El archivo Excel está vacío o mal estructurado.");
+
+        rows.forEach(item => {
+          const colorNombre = (item["Color del Título"] || "").toLowerCase();
+          const color = coloresPermitidos[colorNombre] || "#000000";
+          const beneficiosHTML = item["Beneficios"] ? `<ul>${item["Beneficios"].split(",").map(b => `<li>${b.trim()}</li>`).join("")}</ul>` : "";
+          const imagenesHTML = `
+            ${item["URL Imagen"] ? `<div class='image-main'><img src='${item["URL Imagen"]}'></div>` : ""}
+            <div class='image-columns'>
+              ${item["URL Imagen 2"] ? `<img src='${item["URL Imagen 2"]}'>` : ""}
+              ${item["URL Imagen 3"] ? `<img src='${item["URL Imagen 3"]}'>` : ""}
+            </div>`;
+          const ficha = `
+            <div class='categoria-export'>
+              <h3 style='color:${color}'>${item["Nombre"] || ""} ${item["Marca"] || ""}</h3>
+              ${beneficiosHTML}
+              <p>${item["Información adicional"] || ""}</p>
+              ${imagenesHTML}
+            </div>
+          `;
+          document.getElementById("descripcionFinal").innerHTML += ficha;
+          fichasGeneradas.push({ sku: item["SKU"], html: ficha });
+        });
+        alert("✅ Excel procesado correctamente");
+      };
+      reader.readAsArrayBuffer(file);
+    }
+
+    function descargarPlantilla() {
+      const encabezados = ["SKU", "Nombre", "Tipo", "Marca", "Beneficios", "Información adicional", "URL Imagen", "URL Imagen 2", "URL Imagen 3", "Color del Título"];
+      const wb = XLSX.utils.book_new();
+      const ws = XLSX.utils.aoa_to_sheet([encabezados]);
+      XLSX.utils.book_append_sheet(wb, ws, "Plantilla");
+      XLSX.writeFile(wb, "Plantilla_Fichas.xlsx");
+      alert("📄 Plantilla descargada exitosamente");
+    }
+
+    function descargarExcel() {
+      if (!fichasGeneradas.length) {
+        alert("No hay fichas generadas para exportar.");
+        return;
+      }
+      const data = fichasGeneradas.map(f => ({ SKU: f.sku || "", HTML: f.html }));
+      const ws = XLSX.utils.json_to_sheet(data);
+      const wb = XLSX.utils.book_new();
+      XLSX.utils.book_append_sheet(wb, ws, "Fichas");
+      XLSX.writeFile(wb, "Fichas_Generadas.xlsx");
+      alert("⬇️ Archivo Excel exportado exitosamente");
+    }
+
+    function limpiarTodo() {
+      document.getElementById("excelInput").value = "";
+      document.getElementById("skuUnit").value = "";
+      document.getElementById("nombreUnit").value = "";
+      document.getElementById("marcaUnit").value = "";
+      document.getElementById("tipoUnit").value = "";
+      document.getElementById("beneficiosUnit").value = "";
+      document.getElementById("infoUnit").value = "";
+      document.getElementById("img1Unit").value = "";
+      document.getElementById("img2Unit").value = "";
+      document.getElementById("img3Unit").value = "";
+      document.getElementById("colorUnit").value = "azul";
+      document.getElementById("descripcionFinal").innerHTML = "";
+      fichasGeneradas = [];
+      alert("🧹 Formulario limpiado");
+    }
+
+    function agregarUnitario() {
+      const sku = document.getElementById("skuUnit").value.trim();
+      const nombre = document.getElementById("nombreUnit").value.trim();
+      const marca = document.getElementById("marcaUnit").value.trim();
+      const tipo = document.getElementById("tipoUnit").value.trim();
+      const beneficios = document.getElementById("beneficiosUnit").value.trim();
+      const info = document.getElementById("infoUnit").value.trim();
+      const img1 = document.getElementById("img1Unit").value.trim();
+      const img2 = document.getElementById("img2Unit").value.trim();
+      const img3 = document.getElementById("img3Unit").value.trim();
+      const colorNombre = document.getElementById("colorUnit").value.toLowerCase();
+      const color = coloresPermitidos[colorNombre] || "#000000";
+
+      const beneficiosHTML = beneficios ? `<ul>${beneficios.split(",").map(b => `<li>${b.trim()}</li>`).join("")}</ul>` : "";
+      const imagenesHTML = `
+        ${img1 ? `<div class='image-main'><img src='${img1}'></div>` : ""}
+        <div class='image-columns'>
+          ${img2 ? `<img src='${img2}'>` : ""}
+          ${img3 ? `<img src='${img3}'>` : ""}
+        </div>`;
+
+      const ficha = `
+        <div class='categoria-export'>
+          <h3 style='color:${color}'>${nombre} ${marca}</h3>
+          ${beneficiosHTML}
+          <p>${info}</p>
+          ${imagenesHTML}
+        </div>
+      `;
+
+      document.getElementById("descripcionFinal").innerHTML += ficha;
+      fichasGeneradas.push({ sku, html: ficha });
+    }
+
+    document.getElementById("btnAgregar").addEventListener("click", agregarUnitario);
+    document.getElementById("btnProcesar").addEventListener("click", procesarExcel);
+    document.getElementById("btnPlantilla").addEventListener("click", descargarPlantilla);
+    document.getElementById("btnExportar").addEventListener("click", descargarExcel);
+    document.getElementById("btnLimpiar").addEventListener("click", limpiarTodo);
+  </script>
 </body>
 </html>
