@@ -619,6 +619,7 @@ function limpiarTodo() {
       }).join("");
 
       const html = `
+          <div style='background:#eee;padding:5px 10px;border-radius:5px;font-size:13px;margin-bottom:5px;'>📦 SKU: ${sku}</div>
         <div class="categoria-export" style="background:white;padding:15px;border-radius:8px;margin-bottom:25px;font-size:15px;">
           <h3 style="color:${colorMap[color?.toLowerCase()] || '#000'}">${nombre || "Sin nombre"}</h3>
           <ul style="background:#f5f5f5;padding:10px;border-radius:5px;list-style:none;padding-left:20px;">
