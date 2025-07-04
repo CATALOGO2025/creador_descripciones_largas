@@ -406,21 +406,29 @@ function descargarExcel() {
 
 
 function limpiarTodo() {
-      document.getElementById("excelInput").value = "";
-      document.getElementById("skuUnit").value = "";
-      document.getElementById("nombreUnit").value = "";
-      document.getElementById("marcaUnit").value = "";
-      document.getElementById("tipoUnit").value = "";
-      document.getElementById("beneficiosUnit").value = "";
-      document.getElementById("infoUnit").value = "";
-      document.getElementById("img1Unit").value = "";
-      document.getElementById("img2Unit").value = "";
-      document.getElementById("img3Unit").value = "";
-      document.getElementById("colorUnit").value = "azul";
-      document.getElementById("descripcionFinal").innerHTML = "";
-      fichasGeneradas = [];
-      alert("🧹 Formulario limpiado");
-    }
+  document.getElementById("excelInput").value = "";
+  document.getElementById("skuUnit").value = "";
+  document.getElementById("nombreUnit").value = "";
+  document.getElementById("marcaUnit").value = "";
+  document.getElementById("tipoUnit").value = "";
+  document.getElementById("beneficiosUnit").value = "";
+  document.getElementById("infoUnit").value = "";
+  document.getElementById("img1Unit").value = "";
+  document.getElementById("img2Unit").value = "";
+  document.getElementById("img3Unit").value = "";
+  document.getElementById("colorUnit").value = "azul";
+  document.getElementById("descripcionFinal").innerHTML = "";
+
+  // ✅ Limpiar checkboxes
+  const checkboxes = document.querySelectorAll('#checkboxDiferenciadores input[type="checkbox"]');
+  checkboxes.forEach(cb => cb.checked = false);
+
+  // ✅ Reiniciar arrays
+  fichasGeneradas = [];
+  datosProcesados = [];
+
+  alert("🧹 Formulario limpiado");
+}
 
     function agregarUnitario() {
       const sku = document.getElementById("skuUnit").value.trim();
