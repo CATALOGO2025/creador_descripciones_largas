@@ -473,5 +473,17 @@ function limpiarTodo() {
     document.getElementById("btnExportar").addEventListener("click", descargarExcel);
     document.getElementById("btnLimpiar").addEventListener("click", limpiarTodo);
   </script>
+<script>
+  document.getElementById("btnPlantilla").addEventListener("click", function () {
+    const url = "https://catalogo2025.github.io/creador_descripciones_largas/Plantilla_Fichas_Diferenciadores_y_Color_VALIDADO.xlsx";
+    const a = document.createElement("a");
+    a.href = url;
+    a.download = "plantilla_descripciones.xlsx";
+    document.body.appendChild(a);
+    a.click();
+    document.body.removeChild(a);
+  });
+</script>
+
 </body>
 </html>
