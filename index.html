@@ -208,7 +208,6 @@ body {
   }
 }
 </style>
-
 <style>
   body {
     font-family: 'Segoe UI', Roboto, sans-serif;
@@ -264,15 +263,11 @@ body {
     margin-bottom: 8px;
   }
 </style>
-
-
 <style>
   #btnAgregar:hover {
     background-color: #3fbf7f !important;
   }
 </style>
-
-
 <style>
   .button-group button {
     font-size: 13px !important;
@@ -282,8 +277,6 @@ body {
     background-color: #3fbf7f !important;
   }
 </style>
-
-
 <style>
   #btnAgregar {
     font-size: 13px !important;
@@ -298,7 +291,6 @@ body {
     background-color: #3fbf7f !important;
   }
 </style>
-
 </head>
 <body>
 <div class="header">Creador de Descripciones Largas</div>
@@ -306,8 +298,7 @@ body {
 <div class="attribute-group">
 <p>📅 <strong>Procesar Excel:</strong> Sube un archivo Excel con los productos para generar automáticamente las fichas. Asegúrate de que contenga los siguientes campos: <em>SKU, Nombre, Tipo, Marca, Beneficios, Información adicional, URL Imagen</em>.</p>
 <p>📄 <strong>Descargar Plantilla:</strong> Puedes descargar una plantilla de ejemplo para completar correctamente.</p>
-
-</div>
+<p><strong>📷 Carga de imágenes:</strong> En los campos URL debes ingresar el nombre la imagen que vas a cargar, esta debe estar previamente cargada en FileZilla. (Ej: Dif_129897999.webp)</p><p>🖼️ URL Imagen: Imagen en formato horizontal o extendida (alargada)</p><p>🖼️ URL Imagen 2: Imagen en formato cuadrado</p><p>🖼️ URL Imagen 3: Imagen en formato cuadrado</p><br/></div>
 <div class="attribute-group">
 <label for="excelInput">📁 Selecciona tu archivo Excel:</label>
 <input accept=".xlsx, .xls" id="excelInput" type="file"/>
@@ -315,10 +306,8 @@ body {
 <button id="btnProcesar">📥 Procesar Excel</button>
 <button id="btnPlantilla">📄 Descargar Plantilla</button>
 <button id="btnExportar">⬇️ Exportar HTML a Excel</button>
-<button id="btnLimpiar">🧹 Limpiar</button>  <button id="btnAgregar" style="background-color:#2C666E;">👁️ Ver Descripciones Generadas</button></div>
-
+<button id="btnLimpiar">🧹 Limpiar</button> <button id="btnAgregar" style="background-color:#2C666E;">👁️ Ver Descripciones Generadas</button></div>
 </div>
-
 <div id="descripcionFinal" style="max-width:900px;margin:0 auto;padding:10px;"></div>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.18.5/xlsx.full.min.js">
 function completarRutaImagen(valor) {
@@ -656,7 +645,6 @@ function mostrarPreview(input, previewId) {
 }
 
 </script>
-
 <script>
   function actualizarContador() {
     const contador = document.getElementById("contadorFichas");
@@ -664,5 +652,5 @@ function mostrarPreview(input, previewId) {
     if (contador) contador.textContent = num;
   }
 </script>
-</body>
+</div></body>
 </html>
