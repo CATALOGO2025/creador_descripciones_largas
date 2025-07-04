@@ -314,15 +314,15 @@ body {
 </div>
 <div>
 <label for="img1Unit">URL Imagen <span style="font-style: italic; color: #888">(Formato horizontal)</span>:</label>
-<input id="img1Unit" placeholder="Ej: https://.../imagen1.jpg" type="text"/>
+<input id="img1Unit" placeholder="Ej: https://.../imagen1.jpg" type="text" onblur="mostrarPreview(this, 'previewImg1')"/><div id="previewImg1" style="margin-top:5px;"></div>
 </div>
 <div>
 <label for="img2Unit">URL Imagen 2 <span style="font-style: italic; color: #888">(Formato cuadrado)</span>:</label>
-<input id="img2Unit" placeholder="Ej: https://.../imagen2.jpg" type="text"/>
+<input id="img2Unit" placeholder="Ej: https://.../imagen2.jpg" type="text" onblur="mostrarPreview(this, 'previewImg2')"/><div id="previewImg2" style="margin-top:5px;"></div>
 </div>
 <div>
 <label for="img3Unit">URL Imagen 3 <span style="font-style: italic; color: #888">(Formato cuadrado)</span>:</label>
-<input id="img3Unit" placeholder="Ej: https://.../imagen3.jpg" type="text"/>
+<input id="img3Unit" placeholder="Ej: https://.../imagen3.jpg" type="text" onblur="mostrarPreview(this, 'previewImg3')"/><div id="previewImg3" style="margin-top:5px;"></div>
 </div>
 <div>
 <label for="colorUnit">Color del Título:</label>
@@ -354,7 +354,21 @@ body {
 <button id="btnAgregar">👁️ Previsualizar Descripción</button></div>
 </div>
 <div id="descripcionFinal" style="max-width:900px;margin:0 auto;padding:10px;"></div>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.18.5/xlsx.full.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.18.5/xlsx.full.min.js">
+function completarRutaImagen(valor) {
+  if (!valor) return "";
+  if (valor.startsWith("http")) return valor;
+  return "https://www.paris.cl/images/Contenido%20Fichas/Diferenciadores/" + valor + "?$staticlink$";
+}
+
+
+function mostrarPreview(input, previewId) {
+  const valor = completarRutaImagen(input.value.trim());
+  const contenedor = document.getElementById(previewId);
+  contenedor.innerHTML = valor ? `<img src="${valor}" style='margin-top:5px;max-width:100px;height:auto;border:1px solid #ccc;border-radius:4px;'>` : "";
+}
+
+</script>
 <script>
     const coloresPermitidos = { azul: "#007bff", rosa: "#e91e63", negro: "#000000" };
     let fichasGeneradas = [];
@@ -396,15 +410,15 @@ url1, url2, url3, color, dif1, dif2, dif3, dif4
 
       const diferenciadores = Array.from(document.querySelectorAll("#checkboxDiferenciadores input:checked")).map(c => c.value);
       const iconosMap = {
-        "Cruelty Free": "images/Contenido%20Fichas/Diferenciadores/icono-crueltyfree.png?$staticlink$",
-        "Libre de Pesticidas": "images/Contenido%20Fichas/Diferenciadores/icono-libre-pesticidas.png?$staticlink$",
-        "No Probado en Animales": "images/Contenido%20Fichas/Diferenciadores/icono-no-probado-animales.png?$staticlink$",
-        "No Toxico": "images/Contenido%20Fichas/Diferenciadores/icono-no-toxico.png?$staticlink$",
-        "Probado Lab": "images/Contenido%20Fichas/Diferenciadores/icono-probado-lab.png?$staticlink$",
-        "Sin Aceite": "images/Contenido%20Fichas/Diferenciadores/icono-sin-aceite.png?$staticlink$",
-        "Sin Parabenos": "images/Contenido%20Fichas/Diferenciadores/icono-sin-parabenos.png?$staticlink$",
-        "Sin Sulfatos": "images/Contenido%20Fichas/Diferenciadores/icono-sin-sulfatos.png?$staticlink$",
-        "Vegano": "images/Contenido%20Fichas/Diferenciadores/icono-vegano.png?$staticlink$"
+        "Cruelty Free": "https://www.paris.cl/images/Contenido%20Fichas/Diferenciadores/icono-crueltyfree.png?$staticlink$",
+        "Libre de Pesticidas": "https://www.paris.cl/images/Contenido%20Fichas/Diferenciadores/icono-libre-pesticidas.png?$staticlink$",
+        "No Probado en Animales": "https://www.paris.cl/images/Contenido%20Fichas/Diferenciadores/icono-no-probado-animales.png?$staticlink$",
+        "No Toxico": "https://www.paris.cl/images/Contenido%20Fichas/Diferenciadores/icono-no-toxico.png?$staticlink$",
+        "Probado Lab": "https://www.paris.cl/images/Contenido%20Fichas/Diferenciadores/icono-probado-lab.png?$staticlink$",
+        "Sin Aceite": "https://www.paris.cl/images/Contenido%20Fichas/Diferenciadores/icono-sin-aceite.png?$staticlink$",
+        "Sin Parabenos": "https://www.paris.cl/images/Contenido%20Fichas/Diferenciadores/icono-sin-parabenos.png?$staticlink$",
+        "Sin Sulfatos": "https://www.paris.cl/images/Contenido%20Fichas/Diferenciadores/icono-sin-sulfatos.png?$staticlink$",
+        "Vegano": "https://www.paris.cl/images/Contenido%20Fichas/Diferenciadores/icono-vegano.png?$staticlink$"
       };
       const iconosHTML = diferenciadores.length > 0
         ? `<div style='display:flex;gap:10px;flex-wrap:wrap;'>${diferenciadores.map(d => `<img src='${iconosMap[d]}' alt='${d}' style='width:80px;height:80px;max-width:100%;height:auto;object-fit:contain;'>`).join("")}</div>`
@@ -547,23 +561,23 @@ function limpiarTodo() {
       const tipo = document.getElementById("tipoUnit").value.trim();
       const beneficios = document.getElementById("beneficiosUnit").value.trim();
       const info = document.getElementById("infoUnit").value.trim();
-      const img1 = document.getElementById("img1Unit").value.trim();
-      const img2 = document.getElementById("img2Unit").value.trim();
-      const img3 = document.getElementById("img3Unit").value.trim();
+      const img1 = completarRutaImagen(document.getElementById("img1Unit").value.trim());
+      const img2 = completarRutaImagen(document.getElementById("img2Unit").value.trim());
+      const img3 = completarRutaImagen(document.getElementById("img3Unit").value.trim());
       const colorNombre = document.getElementById("colorUnit").value.toLowerCase();
       const color = coloresPermitidos[colorNombre] || "#000000";
 
       const diferenciadores = Array.from(document.querySelectorAll("#checkboxDiferenciadores input:checked")).map(c => c.value);
       const iconosMap = {
-        "Cruelty Free": "images/Contenido%20Fichas/Diferenciadores/icono-crueltyfree.png?$staticlink$",
-        "Libre de Pesticidas": "images/Contenido%20Fichas/Diferenciadores/icono-libre-pesticidas.png?$staticlink$",
-        "No Probado en Animales": "images/Contenido%20Fichas/Diferenciadores/icono-no-probado-animales.png?$staticlink$",
-        "No Toxico": "images/Contenido%20Fichas/Diferenciadores/icono-no-toxico.png?$staticlink$",
-        "Probado Lab": "images/Contenido%20Fichas/Diferenciadores/icono-probado-lab.png?$staticlink$",
-        "Sin Aceite": "images/Contenido%20Fichas/Diferenciadores/icono-sin-aceite.png?$staticlink$",
-        "Sin Parabenos": "images/Contenido%20Fichas/Diferenciadores/icono-sin-parabenos.png?$staticlink$",
-        "Sin Sulfatos": "images/Contenido%20Fichas/Diferenciadores/icono-sin-sulfatos.png?$staticlink$",
-        "Vegano": "images/Contenido%20Fichas/Diferenciadores/icono-vegano.png?$staticlink$"
+        "Cruelty Free": "https://www.paris.cl/images/Contenido%20Fichas/Diferenciadores/icono-crueltyfree.png?$staticlink$",
+        "Libre de Pesticidas": "https://www.paris.cl/images/Contenido%20Fichas/Diferenciadores/icono-libre-pesticidas.png?$staticlink$",
+        "No Probado en Animales": "https://www.paris.cl/images/Contenido%20Fichas/Diferenciadores/icono-no-probado-animales.png?$staticlink$",
+        "No Toxico": "https://www.paris.cl/images/Contenido%20Fichas/Diferenciadores/icono-no-toxico.png?$staticlink$",
+        "Probado Lab": "https://www.paris.cl/images/Contenido%20Fichas/Diferenciadores/icono-probado-lab.png?$staticlink$",
+        "Sin Aceite": "https://www.paris.cl/images/Contenido%20Fichas/Diferenciadores/icono-sin-aceite.png?$staticlink$",
+        "Sin Parabenos": "https://www.paris.cl/images/Contenido%20Fichas/Diferenciadores/icono-sin-parabenos.png?$staticlink$",
+        "Sin Sulfatos": "https://www.paris.cl/images/Contenido%20Fichas/Diferenciadores/icono-sin-sulfatos.png?$staticlink$",
+        "Vegano": "https://www.paris.cl/images/Contenido%20Fichas/Diferenciadores/icono-vegano.png?$staticlink$"
       };
       const iconosHTML = diferenciadores.length > 0
         ? `<div style='display:flex;gap:10px;flex-wrap:wrap;'>${diferenciadores.map(d => `<img src='${iconosMap[d]}' alt='${d}' style='width:80px;height:80px;max-width:100%;height:auto;object-fit:contain;'>`).join("")}</div>`
@@ -604,7 +618,21 @@ function limpiarTodo() {
     document.getElementById("btnPlantilla").addEventListener("click", descargarPlantilla);
     document.getElementById("btnExportar").addEventListener("click", descargarExcel);
     document.getElementById("btnLimpiar").addEventListener("click", limpiarTodo);
-  </script>
+  
+function completarRutaImagen(valor) {
+  if (!valor) return "";
+  if (valor.startsWith("http")) return valor;
+  return "https://www.paris.cl/images/Contenido%20Fichas/Diferenciadores/" + valor + "?$staticlink$";
+}
+
+
+function mostrarPreview(input, previewId) {
+  const valor = completarRutaImagen(input.value.trim());
+  const contenedor = document.getElementById(previewId);
+  contenedor.innerHTML = valor ? `<img src="${valor}" style='margin-top:5px;max-width:100px;height:auto;border:1px solid #ccc;border-radius:4px;'>` : "";
+}
+
+</script>
 <script>
   document.getElementById("btnPlantilla").addEventListener("click", function () {
     const url = "https://catalogo2025.github.io/creador_descripciones_largas/Plantilla_Fichas_Diferenciadores_y_Color_VALIDADO.xlsx";
@@ -615,6 +643,20 @@ function limpiarTodo() {
     a.click();
     document.body.removeChild(a);
   });
+
+function completarRutaImagen(valor) {
+  if (!valor) return "";
+  if (valor.startsWith("http")) return valor;
+  return "https://www.paris.cl/images/Contenido%20Fichas/Diferenciadores/" + valor + "?$staticlink$";
+}
+
+
+function mostrarPreview(input, previewId) {
+  const valor = completarRutaImagen(input.value.trim());
+  const contenedor = document.getElementById(previewId);
+  contenedor.innerHTML = valor ? `<img src="${valor}" style='margin-top:5px;max-width:100px;height:auto;border:1px solid #ccc;border-radius:4px;'>` : "";
+}
+
 </script>
 <script>
   // Aquí van: colorMap, rutasIconos, datosProcesados, procesarExcel(), mostrarTablaDesdeExcel()
@@ -626,15 +668,15 @@ function limpiarTodo() {
   };
 
   const rutasIconos = {
-    "Cruelty Free": "images/Contenido%20Fichas/Diferenciadores/icono-crueltyfree.png?$staticlink$",
-    "Libre de Pesticidas": "images/Contenido%20Fichas/Diferenciadores/icono-libre-pesticidas.png",
-    "No Probado en Animales": "images/Contenido%20Fichas/Diferenciadores/icono-no-probado-animales.png",
-    "No Toxico": "images/Contenido%20Fichas/Diferenciadores/icono-no-toxico.png",
-    "Probado Lab": "images/Contenido%20Fichas/Diferenciadores/icono-probado-lab.png",
-    "Sin Aceite": "images/Contenido%20Fichas/Diferenciadores/icono-sin-aceite.png",
-    "Sin Parabenos": "images/Contenido%20Fichas/Diferenciadores/icono-sin-parabenos.png",
-    "Sin Sulfatos": "images/Contenido%20Fichas/Diferenciadores/icono-sin-sulfatos.png",
-    "Vegano": "images/Contenido%20Fichas/Diferenciadores/icono-vegano.png"
+    "Cruelty Free": "https://www.paris.cl/images/Contenido%20Fichas/Diferenciadores/icono-crueltyfree.png?$staticlink$",
+    "Libre de Pesticidas": "https://www.paris.cl/images/Contenido%20Fichas/Diferenciadores/icono-libre-pesticidas.png",
+    "No Probado en Animales": "https://www.paris.cl/images/Contenido%20Fichas/Diferenciadores/icono-no-probado-animales.png",
+    "No Toxico": "https://www.paris.cl/images/Contenido%20Fichas/Diferenciadores/icono-no-toxico.png",
+    "Probado Lab": "https://www.paris.cl/images/Contenido%20Fichas/Diferenciadores/icono-probado-lab.png",
+    "Sin Aceite": "https://www.paris.cl/images/Contenido%20Fichas/Diferenciadores/icono-sin-aceite.png",
+    "Sin Parabenos": "https://www.paris.cl/images/Contenido%20Fichas/Diferenciadores/icono-sin-parabenos.png",
+    "Sin Sulfatos": "https://www.paris.cl/images/Contenido%20Fichas/Diferenciadores/icono-sin-sulfatos.png",
+    "Vegano": "https://www.paris.cl/images/Contenido%20Fichas/Diferenciadores/icono-vegano.png"
   };
 
   let datosProcesados = [];
@@ -667,6 +709,10 @@ function limpiarTodo() {
 
     datosProcesados.slice(1).forEach((fila) => {
       const [sku, nombre, tipo, marca, beneficios, infoAdicional, url1, url2, url3, color, dif1, dif2, dif3, dif4] = fila;
+      const rutaImagen1 = completarRutaImagen(url1);
+      const rutaImagen2 = completarRutaImagen(url2);
+      const rutaImagen3 = completarRutaImagen(url3);
+
 
       const beneficiosLista = beneficios?.split(",").map(b => `<li>${b.trim()}</li>`).join("") || "";
 
@@ -689,9 +735,9 @@ function limpiarTodo() {
           
           <p>${infoAdicional || ''}</p>
           <div style="display:flex;flex-wrap:wrap;gap:10px;margin-top:10px;">
-            ${url1 ? `<img src="${url1}" style="max-width:100%;height:auto;">` : ''}
-            ${url2 ? `<img src="${url2}" style="width:48%;height:auto;">` : ''}
-            ${url3 ? `<img src="${url3}" style="width:48%;height:auto;">` : ''}
+            ${rutaImagen1 ? `<img src="${rutaImagen1}" style="max-width:100%;height:auto;">` : ''}
+            ${rutaImagen2 ? `<img src="${rutaImagen2}" style="width:48%;height:auto;">` : ''}
+            ${rutaImagen3 ? `<img src="${rutaImagen3}" style="width:48%;height:auto;">` : ''}
           </div>
         </div>
       `;
@@ -703,6 +749,20 @@ function limpiarTodo() {
   // Asocia eventos con los botones
   document.getElementById("btnProcesar").addEventListener("click", procesarExcel);
   document.getElementById("btnAgregar").addEventListener("click", mostrarTablaDesdeExcel);
+
+function completarRutaImagen(valor) {
+  if (!valor) return "";
+  if (valor.startsWith("http")) return valor;
+  return "https://www.paris.cl/images/Contenido%20Fichas/Diferenciadores/" + valor + "?$staticlink$";
+}
+
+
+function mostrarPreview(input, previewId) {
+  const valor = completarRutaImagen(input.value.trim());
+  const contenedor = document.getElementById(previewId);
+  contenedor.innerHTML = valor ? `<img src="${valor}" style='margin-top:5px;max-width:100px;height:auto;border:1px solid #ccc;border-radius:4px;'>` : "";
+}
+
 </script>
 </body>
 </html>
