@@ -319,13 +319,14 @@
     }
 
     function descargarPlantilla() {
-      const encabezados = ["SKU", "Nombre", "Tipo", "Marca", "Beneficios", "Información adicional", "URL Imagen", "URL Imagen 2", "URL Imagen 3", "Color del Título"];
-      const wb = XLSX.utils.book_new();
-      const ws = XLSX.utils.aoa_to_sheet([encabezados]);
-      XLSX.utils.book_append_sheet(wb, ws, "Plantilla");
-      XLSX.writeFile(wb, "Plantilla_Fichas.xlsx");
-      alert("📄 Plantilla descargada exitosamente");
-    }
+  const link = document.createElement('a');
+  link.href = "plantilla_descripciones.xlsx"; // debe coincidir con el nombre del archivo subido
+  link.download = "plantilla_descripciones.xlsx";
+  document.body.appendChild(link);
+  link.click();
+  document.body.removeChild(link);
+  alert("📄 Plantilla descargada exitosamente");
+}
 
     
 function descargarExcel() {
