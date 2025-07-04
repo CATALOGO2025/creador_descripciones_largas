@@ -207,7 +207,8 @@ body {
     flex-direction: column;
   }
 }
-</style>
+
+.attribute-group p, .attribute-group ul, .attribute-group li { font-size: 13px; }</style>
 <style>
   body {
     font-family: 'Segoe UI', Roboto, sans-serif;
@@ -390,7 +391,7 @@ url1, url2, url3, color, dif1, dif2, dif3, dif4
         : "";
 
           const beneficiosHTML = item["Beneficios"]
-  ? `<ul>${item["Beneficios"].split(",").map(b => {
+  ? `<ul>${item["Beneficios"].split(";").map(b => {
       const [antes, despues] = b.split(":");
       return despues
         ? `<li><strong>${antes.trim()}:</strong> ${despues.trim()}</li>`
@@ -605,7 +606,7 @@ function mostrarPreview(input, previewId) {
       const rutaImagen3 = completarRutaImagen(url3);
 
 
-      const beneficiosLista = beneficios?.split(",").map(b => `<li>${b.trim()}</li>`).join("") || "";
+      const beneficiosLista = beneficios?.split(";").map(b => `<li>${b.trim()}</li>`).join("") || "";
 
       const iconos = [dif1, dif2, dif3, dif4].filter(Boolean).map(valor => {
         const src = rutasIconos[valor.trim()];
