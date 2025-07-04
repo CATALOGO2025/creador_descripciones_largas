@@ -295,27 +295,21 @@ body {
 <body>
 <div class="header">Creador de Descripciones Largas</div>
 <div class="container">
-  <div class="attribute-group">
-    <p>📅 <strong>Procesar Excel:</strong> Sube un archivo Excel con los productos para generar automáticamente las fichas. Asegúrate de que contenga los siguientes campos: <em>SKU, Nombre, Tipo, Marca, Beneficios, Información adicional, URL Imagen</em>.</p>
-
-    <p>📄 <strong>Descargar Plantilla:</strong> Puedes descargar una plantilla de ejemplo para completar correctamente.</p>
-
-    <h3 style="font-weight:bold; margin-top: 20px;">Directrices</h3>
-    <hr style="border: 0; border-top: 1px solid #ccc; margin-top: 5px; margin-bottom: 15px;" />
-
-    <p><strong>📝 Beneficios:</strong> Los valores deben estar separados por punto y coma (<code>;</code>), ya que se convierte en formato Lista. <br>
-    <em>Ej: 12 horas de hidratación; Disponible en 14 tonos flexibles; Acabado brillante y luminoso.</em></p>
-
-    <p><strong>📷 Carga de imágenes:</strong> En los campos URL debes ingresar el nombre la imagen que vas a cargar, esta debe estar previamente cargada en FileZilla. <br>
-    <em>(Ej: Dif_129897999.webp)</em></p>
-
-    <ul style="padding-left: 25px; margin-top: 0;">
-      <li>🖼️ <b>URL Imagen:</b> Imagen en formato horizontal o extendida (alargada)</li>
-      <li>🖼️ <b>URL Imagen 2:</b> Imagen en formato cuadrado</li>
-      <li>🖼️ <b>URL Imagen 3:</b> Imagen en formato cuadrado</li>
-    </ul>
-  </div>
-
+<div class="attribute-group">
+<h3 style="font-weight:bold;">Instrucciones</h3><hr style="border: 0; border-top: 1px solid #ccc; margin-top: 5px; margin-bottom: 15px;"/>
+<p>📄 Descargar Plantilla: Puedes descargar una plantilla de ejemplo para completar correctamente.</p>
+<p>📅 Procesar Excel: Sube un archivo Excel con los productos para generar automáticamente las descripciones. Asegúrate de que contenga los siguientes campos: <em>SKU, Nombre, Tipo, Marca, Beneficios, Información adicional, URL Imagen y diferenciadores si es que aplica.</em></p>
+<h3 style="font-weight:bold; margin-top: 20px;">Directrices</h3>
+<hr style="border: 0; border-top: 1px solid #ccc; margin-top: 5px; margin-bottom: 15px;"/>
+<p><strong>📝 Beneficios:</strong> Los valores deben estar separados por punto y coma (<code>;</code>), ya que se convierte en formato Lista.<br/>
+<em>Ej: 12 horas de hidratación; Disponible en 14 tonos flexibles; Acabado brillante y luminoso.</em></p>
+<p><strong>📷 Carga de imágenes:</strong> En los campos URL debes ingresar el nombre la imagen que vas a cargar, esta debe estar previamente cargada en FileZilla. <em>(Ej: Dif_129897999.webp)</em></p>
+<ul style="padding-left: 25px; margin-top: 0;">
+<li>🖼️ Imagen diferenciadora 1: Imagen en formato horizontal o extendida (alargada)</li>
+<li>🖼️ Imagen diferenciadora 1 2: Imagen en formato cuadrado</li>
+<li>🖼️ Imagen diferenciadora 1 3: Imagen en formato cuadrado</li>
+</ul>
+</div>
 <label for="excelInput">📁 Selecciona tu archivo Excel:</label>
 <input accept=".xlsx, .xls" id="excelInput" type="file"/>
 <div class="button-group">
@@ -668,5 +662,5 @@ function mostrarPreview(input, previewId) {
     if (contador) contador.textContent = num;
   }
 </script>
-</div></body>
+</body>
 </html>
