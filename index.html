@@ -519,5 +519,102 @@ function limpiarTodo() {
   });
 </script>
 
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.18.5/xlsx.full.min.js"></script>
+<script>
+document.addEventListener("DOMContentLoaded", function () {
+  // Descargar Plantilla
+  document.getElementById("btnPlantilla")?.addEventListener("click", function () {
+    const link = document.createElement("a");
+    link.href = "Plantilla_Fichas_Diferenciadores_y_Color.xlsx";
+    link.download = "Plantilla_Fichas_Diferenciadores_y_Color.xlsx";
+    document.body.appendChild(link);
+    link.click();
+    document.body.removeChild(link);
+  });
+
+  // Limpiar
+  document.getElementById("btnLimpiar")?.addEventListener("click", function () {
+    document.getElementById("descripcionFinal").innerHTML = "";
+  });
+
+  // Ver Tabla (unitario)
+  document.getElementById("btnAgregar")?.addEventListener("click", function () {
+    const nombre = document.getElementById("nombreUnit").value;
+    const tipo = document.getElementById("tipoUnit").value;
+    const marca = document.getElementById("marcaUnit").value;
+    const beneficios = document.getElementById("beneficiosUnit").value.split(",");
+    const info = document.getElementById("infoUnit").value;
+    const img1 = document.getElementById("img1Unit").value;
+    const img2 = document.getElementById("img2Unit").value;
+    const img3 = document.getElementById("img3Unit").value;
+    const color = document.getElementById("colorUnit").value;
+    const checkboxes = document.querySelectorAll("#checkboxDiferenciadores input[type='checkbox']:checked");
+    const diferenciadores = Array.from(checkboxes).map(cb => cb.value);
+
+    const colorMap = {
+      azul: "#007bff",
+      rosa: "#e91e63",
+      negro: "#000"
+    };
+
+    const html = `
+    <div class="categoria-export" style="background-color:white;border-radius:10px;box-shadow:0 2px 8px rgba(0,0,0,0.08);padding:20px;margin-bottom:30px;font-size:15px;display:flex;flex-direction:column;gap:10px;align-items:flex-start;">
+      <h3 style="color:${colorMap[color] || "#000"}">${nombre}</h3>
+      <ul style="text-align:left;background:#f5f5f5;padding:10px;border-radius:5px;list-style:none;padding-left:20px;margin:0;">
+        ${beneficios.map(b => {
+          const [first, ...rest] = b.trim().split(":");
+          return `<li style="position:relative;padding-left:20px;margin-bottom:8px;">
+                    <span style="position:absolute;left:0;color:#555;">•</span><strong>${first.trim()}</strong>${rest.length ? ":" + rest.join(":") : ""}
+                  </li>`;
+        }).join("")}
+      </ul>
+      <p style="margin: 0;">${info}</p>
+      <div class="image-main" style="display:flex;flex-wrap:wrap;gap:10px;">
+        ${img1 ? `<img src="${img1}" style="width:100%;max-width:600px;object-fit:contain;margin:0 auto 15px;display:block;">` : ""}
+        ${img2 ? `<img src="${img2}" style="width:calc(50% - 5px);max-width:300px;height:auto;">` : ""}
+        ${img3 ? `<img src="${img3}" style="width:calc(50% - 5px);max-width:300px;height:auto;">` : ""}
+      </div>
+      <div style="display:flex;gap:10px;flex-wrap:wrap;">
+        ${diferenciadores.map(d => {
+          const src = {
+            "Cruelty Free": "images/Contenido%20Fichas/Diferenciadores/icono-crueltyfree.png?$staticlink$",
+            "Libre de Pesticidas": "images/Contenido%20Fichas/Diferenciadores/icono-libre-pesticidas.png?$staticlink$",
+            "No Probado en Animales": "images/Contenido%20Fichas/Diferenciadores/icono-no-probado-animales.png?$staticlink$",
+            "No Toxico": "images/Contenido%20Fichas/Diferenciadores/icono-no-toxico.png?$staticlink$",
+            "Probado Lab": "images/Contenido%20Fichas/Diferenciadores/icono-probado-lab.png?$staticlink$",
+            "Sin Aceite": "images/Contenido%20Fichas/Diferenciadores/icono-sin-aceite.png?$staticlink$",
+            "Sin Parabenos": "images/Contenido%20Fichas/Diferenciadores/icono-sin-parabenos.png?$staticlink$",
+            "Sin Sulfatos": "images/Contenido%20Fichas/Diferenciadores/icono-sin-sulfatos.png?$staticlink$",
+            "Vegano": "images/Contenido%20Fichas/Diferenciadores/icono-vegano.png?$staticlink$"
+          }[d];
+          return `<img src="${src}" alt="${d}" style="width:80px;height:auto;object-fit:contain;">`;
+        }).join("")}
+      </div>
+    </div>
+    `;
+
+    document.getElementById("descripcionFinal").innerHTML += html;
+  });
+
+  // Exportar HTML a Excel
+  document.getElementById("btnExportar")?.addEventListener("click", function () {
+    const tablaHTML = document.getElementById("descripcionFinal");
+    const data = Array.from(tablaHTML.querySelectorAll(".categoria-export")).map((el, i) => {
+      return {
+        SKU: "N/A",
+        "Descripción Larga (HTML)": el.outerHTML
+      };
+    });
+    const ws = XLSX.utils.json_to_sheet(data);
+    const wb = XLSX.utils.book_new();
+    XLSX.utils.book_append_sheet(wb, ws, "Descripciones");
+    XLSX.writeFile(wb, "Descripciones_HTML.xlsx");
+  });
+
+  // Procesar Excel (por implementar si necesario)
+});
+</script>
+
 </body>
 </html>
