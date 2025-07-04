@@ -566,14 +566,16 @@ function limpiarTodo() {
           <ul style="background:#f5f5f5;padding:10px;border-radius:5px;list-style:none;padding-left:20px;">
             ${beneficiosLista}
           </ul>
+          
+           <div style="margin-top:10px;display:flex;flex-wrap:wrap;gap:10px;">
+            ${iconos}
+          </div>
+          
           <p>${infoAdicional || ''}</p>
           <div style="display:flex;flex-wrap:wrap;gap:10px;margin-top:10px;">
             ${url1 ? `<img src="${url1}" style="max-width:100%;height:auto;">` : ''}
             ${url2 ? `<img src="${url2}" style="width:48%;height:auto;">` : ''}
             ${url3 ? `<img src="${url3}" style="width:48%;height:auto;">` : ''}
-          </div>
-          <div style="margin-top:10px;display:flex;flex-wrap:wrap;gap:10px;">
-            ${iconos}
           </div>
         </div>
       `;
