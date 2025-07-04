@@ -265,6 +265,40 @@ body {
   }
 </style>
 
+
+<style>
+  #btnAgregar:hover {
+    background-color: #3fbf7f !important;
+  }
+</style>
+
+
+<style>
+  .button-group button {
+    font-size: 13px !important;
+    padding: 6px 12px !important;
+  }
+  #btnAgregar:hover {
+    background-color: #3fbf7f !important;
+  }
+</style>
+
+
+<style>
+  #btnAgregar {
+    font-size: 13px !important;
+    padding: 6px 12px !important;
+    color: white;
+    border: none;
+    border-radius: 6px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+  }
+  #btnAgregar:hover {
+    background-color: #3fbf7f !important;
+  }
+</style>
+
 </head>
 <body>
 <div class="header">Creador de Descripciones Largas</div>
@@ -272,8 +306,7 @@ body {
 <div class="attribute-group">
 <p>📅 <strong>Procesar Excel:</strong> Sube un archivo Excel con los productos para generar automáticamente las fichas. Asegúrate de que contenga los siguientes campos: <em>SKU, Nombre, Tipo, Marca, Beneficios, Información adicional, URL Imagen</em>.</p>
 <p>📄 <strong>Descargar Plantilla:</strong> Puedes descargar una plantilla de ejemplo para completar correctamente.</p>
-<p>📝 <strong>Formulario Unitario:</strong> También puedes ingresar productos de forma individual usando el formulario más abajo.</p>
-<p>🔵 <strong>Color del Título:</strong> Solo se permiten los valores <em>Negro</em>, <em>Azul</em> o <em>Rosa</em> en este campo.</p>
+
 </div>
 <div class="attribute-group">
 <label for="excelInput">📁 Selecciona tu archivo Excel:</label>
@@ -282,77 +315,10 @@ body {
 <button id="btnProcesar">📥 Procesar Excel</button>
 <button id="btnPlantilla">📄 Descargar Plantilla</button>
 <button id="btnExportar">⬇️ Exportar HTML a Excel</button>
-<button id="btnLimpiar">🧹 Limpiar</button>
-</div>
-</div>
-<hr style="border: none; border-top: 2px solid #ccc; margin: 40px 0 10px"/>
-<h3 style="margin-bottom: 10px; font-size: 20px; color: #2c3e50">📝 Carga unitaria</h3>
-<div class="attribute-group form-unitario-grid">
-<div>
-<label for="skuUnit">SKU (solo referencial)</label>
-<input id="skuUnit" placeholder="Ej: 12345678" type="text"/>
-</div>
-<div>
-<label for="nombreUnit"><span style="color:red">*</span> Nombre de Producto</label>
-<input id="nombreUnit" placeholder="Ej: Labial Super Stay Matte Ink" type="text"/>
-</div>
-<div>
-<label for="marcaUnit"><span style="color:red">*</span> Marca</label>
-<input id="marcaUnit" placeholder="Ej: Maybelline" type="text"/>
-</div>
-<div>
-<label for="tipoUnit">Tipo de Producto</label>
-<input id="tipoUnit" placeholder="Ej: Labiales" type="text"/>
-</div>
-<div class="full-width">
-<label for="beneficiosUnit">Beneficios (separados por coma):</label>
-<input id="beneficiosUnit" placeholder="Ej: Larga duración, No se transfiere, Alta pigmentación" type="text"/>
-</div>
-<div class="full-width">
-<label for="infoUnit">Información adicional:</label>
-<input id="infoUnit" placeholder="Ej: Agita bien antes de usar. Aplica desde el centro hacia los extremos." type="text"/>
-</div>
-<div>
-<label for="img1Unit">URL Imagen <span style="font-style: italic; color: #888">(Formato horizontal)</span>:</label>
-<input id="img1Unit" placeholder="Ej: https://.../imagen1.jpg" type="text" onblur="mostrarPreview(this, 'previewImg1')"/><div id="previewImg1" style="margin-top:5px;"></div>
-</div>
-<div>
-<label for="img2Unit">URL Imagen 2 <span style="font-style: italic; color: #888">(Formato cuadrado)</span>:</label>
-<input id="img2Unit" placeholder="Ej: https://.../imagen2.jpg" type="text" onblur="mostrarPreview(this, 'previewImg2')"/><div id="previewImg2" style="margin-top:5px;"></div>
-</div>
-<div>
-<label for="img3Unit">URL Imagen 3 <span style="font-style: italic; color: #888">(Formato cuadrado)</span>:</label>
-<input id="img3Unit" placeholder="Ej: https://.../imagen3.jpg" type="text" onblur="mostrarPreview(this, 'previewImg3')"/><div id="previewImg3" style="margin-top:5px;"></div>
-</div>
-<div>
-<label for="colorUnit">Color del Título:</label>
-<select id="colorUnit">
-<option value="azul">Azul</option>
-<option value="rosa">Rosa</option>
-<option value="negro">Negro</option>
-</select>
-</div>
-<div class="full-width">
-<hr style="border: none; border-top: 1px solid #ccc; margin: 20px 0;"/>
-<h4 style="font-size: 16px; color: #007bff; font-weight: normal; margin-bottom: 10px;">✨ Selecciona 1 o varios atributos diferenciadores</h4>
-<div id="checkboxDiferenciadores" style="display: flex; flex-wrap: wrap; gap: 10px;">
-<style>#checkboxDiferenciadores label { font-weight: normal; }</style>
-<label><input type="checkbox" value="Cruelty Free"/> Cruelty Free</label>
-<label><input type="checkbox" value="Libre de Pesticidas"/> Libre de Pesticidas</label>
-<label><input type="checkbox" value="No Probado en Animales"/> No Probado en Animales</label>
-<label><input type="checkbox" value="No Toxico"/> No Toxico</label>
-<label><input type="checkbox" value="Probado Lab"/> Probado Lab</label>
-<label><input type="checkbox" value="Sin Aceite"/> Sin Aceite</label>
-<label><input type="checkbox" value="Sin Parabenos"/> Sin Parabenos</label>
-<label><input type="checkbox" value="Sin Sulfatos"/> Sin Sulfatos</label>
-<label><input type="checkbox" value="Vegano"/> Vegano</label>
-</div>
-</div>
-</div>
-<div class="full-width button-group">
+<button id="btnLimpiar">🧹 Limpiar</button>  <button id="btnAgregar" style="background-color:#2C666E;">👁️ Ver Descripciones Generadas</button></div>
 
-<button id="btnAgregar">👁️ Previsualizar Descripción</button></div>
 </div>
+
 <div id="descripcionFinal" style="max-width:900px;margin:0 auto;padding:10px;"></div>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.18.5/xlsx.full.min.js">
 function completarRutaImagen(valor) {
@@ -531,89 +497,15 @@ function descargarExcel() {
 
 function limpiarTodo() {
   document.getElementById("excelInput").value = "";
-  document.getElementById("skuUnit").value = "";
-  document.getElementById("nombreUnit").value = "";
-  document.getElementById("marcaUnit").value = "";
-  document.getElementById("tipoUnit").value = "";
-  document.getElementById("beneficiosUnit").value = "";
-  document.getElementById("infoUnit").value = "";
-  document.getElementById("img1Unit").value = "";
-  document.getElementById("img2Unit").value = "";
-  document.getElementById("img3Unit").value = "";
-  document.getElementById("colorUnit").value = "azul";
   document.getElementById("descripcionFinal").innerHTML = "";
-
-  // ✅ Limpiar checkboxes
-  const checkboxes = document.querySelectorAll('#checkboxDiferenciadores input[type="checkbox"]');
-  checkboxes.forEach(cb => cb.checked = false);
-
-  // ✅ Reiniciar arrays
   fichasGeneradas = [];
   datosProcesados = [];
-
+  actualizarContador();
   alert("🧹 Formulario limpiado");
 }
 
-    function agregarUnitario() {
-      const sku = document.getElementById("skuUnit").value.trim();
-      const nombre = document.getElementById("nombreUnit").value.trim();
-      const marca = document.getElementById("marcaUnit").value.trim();
-      const tipo = document.getElementById("tipoUnit").value.trim();
-      const beneficios = document.getElementById("beneficiosUnit").value.trim();
-      const info = document.getElementById("infoUnit").value.trim();
-      const img1 = completarRutaImagen(document.getElementById("img1Unit").value.trim());
-      const img2 = completarRutaImagen(document.getElementById("img2Unit").value.trim());
-      const img3 = completarRutaImagen(document.getElementById("img3Unit").value.trim());
-      const colorNombre = document.getElementById("colorUnit").value.toLowerCase();
-      const color = coloresPermitidos[colorNombre] || "#000000";
+    
 
-      const diferenciadores = Array.from(document.querySelectorAll("#checkboxDiferenciadores input:checked")).map(c => c.value);
-      const iconosMap = {
-        "Cruelty Free": "https://www.paris.cl/images/Contenido%20Fichas/Diferenciadores/icono-crueltyfree.png?$staticlink$",
-        "Libre de Pesticidas": "https://www.paris.cl/images/Contenido%20Fichas/Diferenciadores/icono-libre-pesticidas.png?$staticlink$",
-        "No Probado en Animales": "https://www.paris.cl/images/Contenido%20Fichas/Diferenciadores/icono-no-probado-animales.png?$staticlink$",
-        "No Toxico": "https://www.paris.cl/images/Contenido%20Fichas/Diferenciadores/icono-no-toxico.png?$staticlink$",
-        "Probado Lab": "https://www.paris.cl/images/Contenido%20Fichas/Diferenciadores/icono-probado-lab.png?$staticlink$",
-        "Sin Aceite": "https://www.paris.cl/images/Contenido%20Fichas/Diferenciadores/icono-sin-aceite.png?$staticlink$",
-        "Sin Parabenos": "https://www.paris.cl/images/Contenido%20Fichas/Diferenciadores/icono-sin-parabenos.png?$staticlink$",
-        "Sin Sulfatos": "https://www.paris.cl/images/Contenido%20Fichas/Diferenciadores/icono-sin-sulfatos.png?$staticlink$",
-        "Vegano": "https://www.paris.cl/images/Contenido%20Fichas/Diferenciadores/icono-vegano.png?$staticlink$"
-      };
-      const iconosHTML = diferenciadores.length > 0
-        ? `<div style='display:flex;gap:10px;flex-wrap:wrap;'>${diferenciadores.map(d => `<img src='${iconosMap[d]}' alt='${d}' style='width:80px;height:80px;max-width:100%;height:auto;object-fit:contain;'>`).join("")}</div>`
-        : "";
-
-
-      const beneficiosHTML = beneficios
-  ? `<ul>${beneficios.split(",").map(b => {
-      const [antes, despues] = b.split(":");
-      return despues
-        ? `<li><strong>${antes.trim()}:</strong> ${despues.trim()}</li>`
-        : `<li>${b.trim()}</li>`;
-    }).join("")}</ul>`
-  : "";
-      const imagenesHTML = `
-        ${img1 ? `<div class='image-main'><img src='${img1}'></div>` : ""}
-        <div class='image-columns'>
-          ${img2 ? `<img src='${img2}'>` : ""}
-          ${img3 ? `<img src='${img3}'>` : ""}
-        </div>`;
-
-      const ficha = `
-        <div class='categoria-export'>
-          <h3 style='color:${color}'>${nombre} ${marca}</h3>
-          ${beneficiosHTML}
-          ${iconosHTML}
-          <p>${info}</p>
-          ${imagenesHTML}
-        </div>
-      `;
-
-      document.getElementById("descripcionFinal").innerHTML += ficha;
-      fichasGeneradas.push({ sku, html: ficha });
-    }
-
-    document.getElementById("btnAgregar").addEventListener("click", agregarUnitario);
     document.getElementById("btnProcesar").addEventListener("click", procesarExcel);
     document.getElementById("btnPlantilla").addEventListener("click", descargarPlantilla);
     document.getElementById("btnExportar").addEventListener("click", descargarExcel);
@@ -763,6 +655,14 @@ function mostrarPreview(input, previewId) {
   contenedor.innerHTML = valor ? `<img src="${valor}" style='margin-top:5px;max-width:100px;height:auto;border:1px solid #ccc;border-radius:4px;'>` : "";
 }
 
+</script>
+
+<script>
+  function actualizarContador() {
+    const contador = document.getElementById("contadorFichas");
+    const num = document.querySelectorAll(".categoria-export").length;
+    if (contador) contador.textContent = num;
+  }
 </script>
 </body>
 </html>
