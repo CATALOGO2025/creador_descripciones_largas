@@ -252,6 +252,7 @@
 <script>
     const coloresPermitidos = { azul: "#007bff", rosa: "#e91e63", negro: "#000000" };
     let fichasGeneradas = [];
+let datosProcesados = [];
 
     function procesarExcel() {
       const input = document.getElementById("excelInput");
@@ -264,6 +265,7 @@
         const workbook = XLSX.read(data, { type: "array" });
         const sheet = workbook.Sheets[workbook.SheetNames[0]];
         const rows = XLSX.utils.sheet_to_json(sheet);
+datosProcesados = [Object.keys(rows[0]), ...rows.map(obj => Object.values(obj))];
             // Marcar checkboxes según diferenciales del primer producto
     const [_, __, ___, ____, _____, ______, _______, ________, _________, ________, dif1, dif2, dif3, dif4] = jsonData[1] || [];
 
@@ -342,6 +344,7 @@
 }
 
     
+
 function descargarExcel() {
   if (!fichasGeneradas.length) {
     alert("No hay fichas generadas para exportar.");
@@ -349,6 +352,51 @@ function descargarExcel() {
   }
 
   const data = fichasGeneradas.map(f => {
+    const parser = new DOMParser();
+    const doc = parser.parseFromString(f.html, 'text/html');
+    const container = doc.querySelector('.categoria-export');
+
+    container.setAttribute("style", "background-color:white;border-radius:10px;box-shadow:0 2px 8px rgba(0,0,0,0.08);padding:20px;margin-bottom:30px;font-size:15px;display:flex;flex-direction:column;gap:10px;align-items:flex-start;");
+
+    const ul = container.querySelector("ul");
+    if (ul) ul.setAttribute("style", "text-align:left;background:#f5f5f5;padding:10px;border-radius:5px;list-style:none;padding-left:20px;margin:0;");
+
+    const lis = container.querySelectorAll("ul li");
+    lis.forEach(li => {
+      li.setAttribute("style", "position:relative;padding-left:20px;margin-bottom:8px;");
+      const texto = li.innerHTML;
+      if (texto.includes(":")) {
+        const [antes, despues] = texto.split(":");
+        li.innerHTML = `<span style='position:absolute;left:0;color:#555;'>&bull;</span><strong>${antes.trim()}:</strong> ${despues.trim()}`;
+      } else {
+        li.innerHTML = `<span style='position:absolute;left:0;color:#555;'>&bull;</span>${texto.trim()}`;
+      }
+    });
+
+    const p = container.querySelector("p");
+    if (p) p.setAttribute("style", "text-align:left;margin:0;");
+
+    const imageCols = container.querySelectorAll("img");
+    imageCols.forEach(img => {
+      img.setAttribute("style", "width:100%;height:auto;max-width:600px;display:block;margin:10px 0;");
+    });
+
+    let htmlExportado = container.outerHTML.trim();
+    htmlExportado = htmlExportado.replace(/"(.*?)"/g, "'$1'");
+
+    return {
+      SKU: f.sku || "",
+      HTML: htmlExportado
+    };
+  });
+
+  const ws = XLSX.utils.json_to_sheet(data);
+  const wb = XLSX.utils.book_new();
+  XLSX.utils.book_append_sheet(wb, ws, "Fichas");
+  XLSX.writeFile(wb, "Fichas_Generadas.xlsx");
+  alert("⬇️ Archivo Excel exportado exitosamente");
+}
+const data = fichasGeneradas.map(f => {
     const parser = new DOMParser();
     const doc = parser.parseFromString(f.html, 'text/html');
     const container = doc.querySelector('.categoria-export');
@@ -494,6 +542,9 @@ function limpiarTodo() {
     document.getElementById("btnPlantilla").addEventListener("click", descargarPlantilla);
     document.getElementById("btnExportar").addEventListener("click", descargarExcel);
     document.getElementById("btnLimpiar").addEventListener("click", limpiarTodo);
+document.getElementById("btnExportar").addEventListener("click", descargarExcel);
+document.getElementById("btnVerTabla").addEventListener("click", mostrarTablaDesdeExcel);
+document.getElementById("btnVerTabla").addEventListener("click", mostrarTablaDesdeExcel);
   </script>
 <script>
   document.getElementById("btnPlantilla").addEventListener("click", function () {
