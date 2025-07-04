@@ -264,6 +264,19 @@
         const workbook = XLSX.read(data, { type: "array" });
         const sheet = workbook.Sheets[workbook.SheetNames[0]];
         const rows = XLSX.utils.sheet_to_json(sheet);
+            // Marcar checkboxes según diferenciales del primer producto
+    const [_, __, ___, ____, _____, ______, _______, ________, _________, ________, dif1, dif2, dif3, dif4] = jsonData[1] || [];
+
+    const checkboxContainer = document.getElementById("checkboxDiferenciadores");
+    const checkboxes = checkboxContainer.querySelectorAll("input[type='checkbox']");
+    [ dif1, dif2, dif3, dif4 ].forEach(valor => {
+      if (!valor) return;
+      checkboxes.forEach(cb => {
+        if (cb.value.trim().toLowerCase() === valor.trim().toLowerCase()) {
+          cb.checked = true;
+        }
+      });
+    });
 
         if (!rows.length) return alert("El archivo Excel está vacío o mal estructurado.");
 
