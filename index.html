@@ -1,20 +1,21 @@
 <!DOCTYPE html>
 
 <html lang="es">
-<head>
+<head><link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500&amp;display=swap" rel="stylesheet"/>
 <meta charset="utf-8"/>
 <meta content="width=device-width, initial-scale=1.0" name="viewport"/>
 <title>Creador de Descripciones Largas</title>
 <style>
     body {
-      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      font-family: 'Roboto', 'Helvetica Neue', sans-serif;
+  line-height: 1.6;
       margin: 0;
       padding: 0;
       background-color: #f8f9fa;
       font-size: 15px;
     }
     .header {
-      background-color: #2c3e50;
+      background-color: #0056b3;
       color: white;
       padding: 20px;
       text-align: center;
@@ -150,7 +151,63 @@
   }
 }
     }
-  </style>
+  
+/* Botones modernos */
+button {
+  background-color: #2C666E;
+  color: white;
+  border: none;
+  padding: 10px 18px;
+  border-radius: 6px;
+  font-size: 14px;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+button:hover {
+  background-color: #1e474b;
+}
+
+/* Header más elegante */
+.header {
+  font-family: 'Segoe UI', sans-serif;
+  letter-spacing: 1px;
+  text-shadow: 1px 1px 2px rgba(0,0,0,0.2);
+}
+
+/* Espaciado entre secciones */
+.attribute-group {
+  margin-bottom: 30px;
+}
+
+/* Tipografía más sobria */
+body {
+  font-size: 14px;
+  font-weight: 400;
+}
+::placeholder {
+  font-style: italic;
+  color: #aaa;
+}
+
+/* Redondear imágenes cuadradas */
+.categoria-export img {
+  border-radius: 10px;
+}
+
+/* Tamaño iconos diferenciadores */
+.categoria-export .icono-diferenciador {
+  width: 64px !important;
+  height: 64px !important;
+  object-fit: contain;
+}
+
+/* Responsive buttons */
+@media (max-width: 480px) {
+  .button-group {
+    flex-direction: column;
+  }
+}
+</style>
 </head>
 <body>
 <div class="header">Creador de Descripciones Largas</div>
@@ -187,7 +244,7 @@
 <input id="marcaUnit" placeholder="Ej: Maybelline" type="text"/>
 </div>
 <div>
-<label for="tipoUnit"><span style="color:red">*</span> Tipo de Producto</label>
+<label for="tipoUnit">Tipo de Producto</label>
 <input id="tipoUnit" placeholder="Ej: Labiales" type="text"/>
 </div>
 <div class="full-width">
@@ -239,8 +296,7 @@
 <button id="btnAgregar">Ver Tabla</button>
 </div>
 </div>
-<div id="descripcionFinal"></div>
-
+<div id="descripcionFinal" style="max-width:900px;margin:0 auto;padding:10px;"></div>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.18.5/xlsx.full.min.js"></script>
 <script>
     const coloresPermitidos = { azul: "#007bff", rosa: "#e91e63", negro: "#000000" };
@@ -590,6 +646,5 @@ function limpiarTodo() {
   document.getElementById("btnProcesar").addEventListener("click", procesarExcel);
   document.getElementById("btnAgregar").addEventListener("click", mostrarTablaDesdeExcel);
 </script>
-
 </body>
 </html>
